@@ -33,7 +33,40 @@ class Solution:
         return self.helper(coins, amount, {})
 
 
+class Solution2:
+    def coinChange(self, coins: List[int], target: int) -> int:
+        #   index = coins sum
+        #   value = coins amount
+        if target == 0:
+            return 0
+
+        coins_amount = [float('inf') for _ in range(target + 1)]
+        for coin in coins:
+            if coin < len(coins_amount):
+                coins_amount[coin] = 1
+
+        for i in range(len(coins_amount)):
+            # print(f'i: {i}, val: {coins_amount[i]}')
+            if coins_amount[i] == float('inf'):
+                continue
+
+            if i == target:
+                return int(coins_amount[i])
+            else:
+                for coin in coins:
+                    new_idx = i + coin
+                    new_val = coins_amount[i] + 1
+
+                    if new_idx < len(coins_amount) and new_val < coins_amount[new_idx]:
+                        coins_amount[new_idx] = new_val
+
+        return -1
+
+
 s = Solution()
+s2 = Solution2()
 coins = [186, 419, 83, 408]
+coins = sorted(coins, reverse=True)
 amount = 6249
 print(s.coinChange(coins, amount))
+print(s2.coinChange(coins, amount))
