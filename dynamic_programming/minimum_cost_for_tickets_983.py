@@ -17,31 +17,33 @@ from typing import List, Dict
 
 
 class Solution:
-    def helper(self, days: List[int], costs: List[int], cur_day: int, days_left: int, money_spent: int, memo: Dict):
-        if cur_day == 366:
-            return money_spent
+    def helper(self, days: set, costs: List[int], cur_day: int, memo: Dict):
+        if cur_day > 365:
+            return 0
 
         if cur_day in memo:
             return memo[cur_day]
 
-        if days_left > 0:
-            return self.helper(days, costs, cur_day + 1, days_left - 1, money_spent, memo)
+        if cur_day not in days:
+            return self.helper(days, costs, cur_day + 1, memo)
+        else:
+            res_3 = self.helper(days, costs, cur_day + 30, memo)
+            res_3 += costs[2]
+            res_2 = self.helper(days, costs, cur_day + 7, memo)
+            res_2 += costs[1]
+            res_1 = self.helper(days, costs, cur_day + 1, memo)
+            res_1 += costs[0]
 
-        if days_left == 0 and cur_day not in days:
-            return self.helper(days, costs, cur_day + 1, days_left, money_spent, memo)
-        elif days_left == 0:
-            res_1 = self.helper(days, costs, cur_day + 1, 0, money_spent + costs[0], memo)
-            res_2 = self.helper(days, costs, cur_day + 1, 6, money_spent + costs[1], memo)
-            res_3 = self.helper(days, costs, cur_day + 1, 29, money_spent + costs[2], memo)
             result = min(res_1, res_2, res_3)
             memo[cur_day] = result
             return memo[cur_day]
 
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
-        return self.helper(days, costs, 1, 0, 0, {})
+        days = set(days)
+        return self.helper(days, costs, 1, {})
 
 
 s = Solution()
-days = [1, 4, 6, 7, 8, 20]
-costs = [2, 7, 15]
+days = [4, 5, 9, 11, 14, 16, 17, 19, 21, 22, 24]
+costs = [1, 4, 18]
 print(s.mincostTickets(days, costs))
