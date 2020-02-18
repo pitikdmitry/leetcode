@@ -42,7 +42,6 @@ class Solution:
         return -1
 
 
-
 s = Solution()
 nums = [1, 2]
 print(s.findMin(nums))
