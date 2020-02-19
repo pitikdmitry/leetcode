@@ -95,3 +95,4 @@ nums = [3, 5, 1]
 print(s.findMin(nums))
 
 
+erwklgj
