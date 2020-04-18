@@ -16,7 +16,7 @@ Explanation: 13 = 4 + 9.
 import math
 
 
-class Solution2:
+class SolutionTopDown:
     def is_perfect_square(self, num):
         num_sqrt = int(math.sqrt(num))
         if num_sqrt * num_sqrt == num:
@@ -49,11 +49,11 @@ class Solution2:
         return self.helper(n, dict())
 
 
-s = Solution2()
+s = SolutionTopDown()
 print(s.numSquares(12))
 
 
-class Solution:
+class SolutionBottomUp:
     def numSquares(self, n: int) -> int:
         square_nums = [i ** 2 for i in range(1, int(math.sqrt(n) + 1))]
         dp = [float('inf') for _ in range(0, n + 1)]
@@ -69,5 +69,5 @@ class Solution:
         return dp[len(dp) - 1]
 
 
-s = Solution()
+s = SolutionBottomUp()
 print(s.numSquares(13))

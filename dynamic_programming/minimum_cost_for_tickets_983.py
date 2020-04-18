@@ -17,7 +17,7 @@ from typing import List, Dict
 
 
 class Solution:
-    def helper(self, days: set, costs: List[int], cur_day: int, memo: Dict):
+    def helper(self, days: set, costs: List[int], cur_day: int, memo: Dict) -> int:
         if cur_day > 365:
             return 0
 

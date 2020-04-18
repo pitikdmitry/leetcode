@@ -6,6 +6,7 @@ If that amount of money cannot be made up by any combination of the coins, retur
 from typing import List, Dict
 
 
+#   top down
 class Solution:
     def helper(self, coins: List[int], remaining: int, memo: Dict):
         if remaining == 0:
@@ -33,10 +34,9 @@ class Solution:
         return self.helper(coins, amount, {})
 
 
-class Solution2:
+#   bottom up
+class SolutionBottomUp:
     def coinChange(self, coins: List[int], target: int) -> int:
-        #   index = coins sum
-        #   value = coins amount
         if target == 0:
             return 0
 
@@ -64,9 +64,9 @@ class Solution2:
 
 
 s = Solution()
-s2 = Solution2()
+solution_bottom_up = SolutionBottomUp()
 coins = [186, 419, 83, 408]
 coins = sorted(coins, reverse=True)
 amount = 6249
 print(s.coinChange(coins, amount))
-print(s2.coinChange(coins, amount))
+print(solution_bottom_up.coinChange(coins, amount))
