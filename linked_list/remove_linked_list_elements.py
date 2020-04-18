@@ -10,13 +10,13 @@ Output: 1->2->3->4->5
 
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
 
 class Solution:
-    def remove_helper(self, head: ListNode, val: int):
+    def remove_helper(self, head: ListNode, val: int) -> None:
         cur = head
         next_node = head.next
 

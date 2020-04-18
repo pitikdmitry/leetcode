@@ -6,15 +6,17 @@ Example:
 Input: 1->2->3->4->5->NULL
 Output: 5->4->3->2->1->NULL
 '''
+
+
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
 
 class Solution:
-    def reverse(self, prev, cur):
+    def reverse(self, prev, cur) -> ListNode:
         if cur is None:
             return prev
 

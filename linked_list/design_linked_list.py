@@ -30,7 +30,6 @@ class MyLinkedList:
         Initialize your data structure here.
         """
         self._root = None
-        self._tail = None
 
     def get(self, index: int) -> int:
         """
@@ -122,6 +121,7 @@ class MyLinkedList:
             return
 
         prev.next = prev.next.next
+
 
 # Your MyLinkedList object will be instantiated and called as such:
 # obj = MyLinkedList()

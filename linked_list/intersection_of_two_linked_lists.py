@@ -4,7 +4,7 @@
 
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
@@ -17,16 +17,16 @@ class Solution:
             head = head.next
         return length
 
-    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
-        l_1 = self.gen_length(headA)
-        l_2 = self.gen_length(headB)
+    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> ListNode:
+        l_1 = self.gen_length(head_a)
+        l_2 = self.gen_length(head_b)
 
         if l_1 > l_2:
-            longest_list_pointer = headA
-            shortest_list_pointer = headB
+            longest_list_pointer = head_a
+            shortest_list_pointer = head_b
         else:
-            longest_list_pointer = headB
-            shortest_list_pointer = headA
+            longest_list_pointer = head_b
+            shortest_list_pointer = head_a
 
         diff = abs(l_2 - l_1)
         for i in range(diff):

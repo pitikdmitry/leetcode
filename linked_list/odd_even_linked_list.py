@@ -20,7 +20,7 @@ Output: 2->3->6->7->1->5->4->NULL
 
 
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
