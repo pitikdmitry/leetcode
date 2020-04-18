@@ -2,16 +2,21 @@
 The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
 Given an integer n, return the number of distinct solutions to the n-queens puzzle.
 '''
+from typing import List
 
 
 class Solution:
-    def remove_queen(self,row, col):
+    def __init__(self) -> None:
+        self.arr = []
+        self.n = 0
+
+    def remove_queen(self, row: int, col: int) -> None:
         self.arr[row][col] = False
 
-    def add_queen(self, row, col):
+    def add_queen(self, row: int, col: int) -> None:
         self.arr[row][col] = True
 
-    def interfere(self, row, col):
+    def interfere(self, row: int, col: int) -> bool:
         for j in range(self.n):
             if self.arr[row][j] is True:
                 return True
@@ -50,7 +55,7 @@ class Solution:
 
         return False
 
-    def queens(self, row, count, res):
+    def queens(self, row: int, count: int, res: List[int]) -> int:
         for col in range(self.n):
             if not self.interfere(row, col):
                 self.add_queen(row, col)

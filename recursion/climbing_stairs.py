@@ -8,19 +8,16 @@ Note: Given n will be a positive integer.
 
 
 class Solution:
-    def helper(self, n, i, res):
+    def helper(self, n: int, i: int) -> int:
         if i == n:
-            res[0] += 1
+            return 1
         elif i > n:
-            return
+            return 0
 
-        self.helper(n, i + 1, res)
-        self.helper(n, i + 2, res)
+        return self.helper(n, i + 1) + self.helper(n, i + 2)
 
     def climbStairs(self, n: int) -> int:
-        res = [0]
-        self.helper(n, 0, res)
-        return res[0]
+        return self.helper(n, 0)
 
 
 s = Solution()

@@ -5,7 +5,7 @@ from typing import List
 
 
 class Solution:
-    def merge(self, arr_1, arr_2):
+    def merge(self, arr_1: List[int], arr_2: List[int]) -> List[int]:
         i, j = 0, 0
         res = []
         while i < len(arr_1) and j < len(arr_2):
@@ -24,14 +24,14 @@ class Solution:
             j += 1
         return res
 
-    def merge_sort(self, arr, i, j):
+    def merge_sort(self, nums: List[int], i: int, j: int) -> List[int]:
         m = (i + j) // 2
         if i < j:
-            res_1 = self.merge_sort(arr, i, m)
-            res_2 = self.merge_sort(arr, m + 1, j)
+            res_1 = self.merge_sort(nums, i, m)
+            res_2 = self.merge_sort(nums, m + 1, j)
             res = self.merge(res_1, res_2)
             return res
-        return [arr[i]]
+        return [nums[i]]
 
     def sortArray(self, nums: List[int]) -> List[int]:
         return self.merge_sort(nums, 0, len(nums) - 1)

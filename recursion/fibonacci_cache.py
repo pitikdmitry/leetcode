@@ -4,13 +4,14 @@ called the Fibonacci sequence, such that each number is the sum of the two prece
 That is, F(0) = 0,   F(1) = 1
 F(N) = F(N - 1) + F(N - 2), for N > 1.
 '''
+from typing import Callable
 
 
 class Solution:
-    def cache_dec(func):
+    def cache_dec(func: Callable) -> Callable:
         memo = {}
 
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs) -> int:
             n = args[len(args) - 1]
             if n in memo:
                 return memo[n]

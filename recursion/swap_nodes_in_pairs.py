@@ -8,7 +8,7 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
 
 
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
@@ -29,4 +29,3 @@ class Solution:
         cur.next = new_next_head
 
         return next
-

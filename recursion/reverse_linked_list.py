@@ -6,13 +6,13 @@ Reverse a singly linked list.
 
 
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
 
 class Solution:
-    def reverse(self, prev, cur):
+    def reverse(self, prev: ListNode, cur: ListNode) -> ListNode:
         if cur is None:
             return prev
 

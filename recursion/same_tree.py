@@ -7,7 +7,7 @@ Two binary trees are considered the same if they are structurally identical and 
 
 # Definition for a binary tree node.
 class TreeNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.left = None
         self.right = None

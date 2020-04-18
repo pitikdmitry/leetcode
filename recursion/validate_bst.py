@@ -10,15 +10,18 @@ Both the left and right subtrees must also be binary search trees.
 
 
 # Definition for a binary tree node.
+from typing import Optional
+
+
 class TreeNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.left = None
         self.right = None
 
 
 class Solution:
-    def validate(self, node, max_val, min_val):
+    def validate(self, node: Optional[TreeNode], max_val: float, min_val: float) -> bool:
         if node is None:
             return True
 

@@ -11,13 +11,13 @@ Output: 1->1->2->3->4->4
 
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.next = None
 
 
 class Solution:
-    def merge_helper(self, l1: ListNode, l2: ListNode, root: ListNode, current_node: ListNode):
+    def merge_helper(self, l1: ListNode, l2: ListNode, root: ListNode, current_node: ListNode) -> ListNode:
         if l1 is None and l2 is None:
             return root
         if l1 is None or (l1 is not None and l2 is not None and l1.val >= l2.val):
