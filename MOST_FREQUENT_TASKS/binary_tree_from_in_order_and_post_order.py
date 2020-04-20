@@ -19,11 +19,11 @@ Return the following binary tree:
 
 
 # Definition for a binary tree node.
-from typing import List
+from typing import List, Optional
 
 
 class TreeNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.left = None
         self.right = None
@@ -31,7 +31,7 @@ class TreeNode:
 
 #   can be optimized with Hashmap for searching elements (instead of linear search index() )
 class Solution:
-    def helper(self, pre_order: List, in_order: List, left: int, right: int, pre_order_cur_position: int):
+    def helper(self, pre_order: List, in_order: List, left: int, right: int, pre_order_cur_position: int) -> Optional[TreeNode]:
         if left > right:
             return None
         if left == right:
@@ -46,14 +46,14 @@ class Solution:
         node.right = self.helper(pre_order, in_order, in_order_position + 1, right, pre_order_cur_position + in_order_left_count + 1)
         return node
 
-    def buildTree(self, pre_order: List[int], in_order: List[int]) -> TreeNode:
+    def buildTree(self, pre_order: List[int], in_order: List[int]) -> Optional[TreeNode]:
         if len(pre_order) == 0:
             return None
         return self.helper(pre_order, in_order, 0, len(pre_order) - 1, 0)
 
 
-preorder = [3,9,20,15,7]
-inorder = [9,3,15,20,7]
+preorder = [3, 9, 20, 15, 7]
+inorder = [9, 3, 15, 20, 7]
 s = Solution()
 head = s.buildTree(preorder, inorder)
 print(head)

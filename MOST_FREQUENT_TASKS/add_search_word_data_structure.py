@@ -18,15 +18,16 @@ search("b..") -> true
 
 
 class Node:
-    def __init__(self, val: str):
+    def __init__(self, val: str) -> None:
         self.val = val
         self.children = {}
         self.is_word = False
 
 
+#   Hash trie
 class WordDictionary:
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize your data structure here.
         """

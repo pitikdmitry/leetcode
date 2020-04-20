@@ -13,8 +13,9 @@ Output: 4
 from typing import List
 
 
+#   quick sort like method
 class Solution:
-    def partition(self, arr, start, end):
+    def partition(self, arr: List[int], start: int, end: int) -> int:
         pivot = start
         l = start + 1
         r = end
@@ -48,6 +49,6 @@ class Solution:
 
 
 s = Solution()
-nums = [3,2,3,1,2,4,5,5,6]
+nums = [3, 2, 3, 1, 2, 4, 5, 5, 6]
 k = 4
 print(s.findKthLargest(nums, k))

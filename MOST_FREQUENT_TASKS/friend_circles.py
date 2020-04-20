@@ -22,11 +22,11 @@ Input:
 Output: 1
 Explanation:The 0th and 1st students are direct friends, the 1st and 2nd students are direct friends,
 so the 0th and 2nd students are indirect friends. All of them are in the same friend circle, so return 1.'''
-from typing import List
+from typing import List, Dict
 
 
 class Solution:
-    def dfs(self, counter_friends, key, val):
+    def dfs(self, counter_friends: Dict[int, List[int]], key: int) -> None:
         q = []
         q.append(key)
         while len(q) > 0:
@@ -52,15 +52,15 @@ class Solution:
                     counter_friends[i].append(j)
 
         while len(counter_friends) > 0:
-            key, val = next(iter(counter_friends.items()))
-            self.dfs(counter_friends, key, val)
+            key = next(iter(counter_friends.keys()))
+            self.dfs(counter_friends, key)
             circles += 1
         return circles
 
 
 s = Solution()
-M = [[1,0,0,1],
-     [0,1,1,0],
-     [0,1,1,1],
-     [1,0,1,1]]
+M = [[1, 0, 0, 1],
+     [0, 1, 1, 0],
+     [0, 1, 1, 1],
+     [1, 0, 1, 1]]
 print(s.findCircleNum(M))

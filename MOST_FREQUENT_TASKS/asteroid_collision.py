@@ -58,15 +58,12 @@ class Solution:
                     asteroids.pop(prev)
                     prev -= 1
                     cur -= 1
-                    continue
                 elif abs(ast_prev) > abs(ast_cur):
                     asteroids.pop(cur)
-                    continue
                 else:
                     asteroids.pop(prev)
                     prev -= 1
                     cur -= 1
-                    continue
             else:
                 prev += 1
                 cur += 1

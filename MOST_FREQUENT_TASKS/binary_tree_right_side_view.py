@@ -20,14 +20,14 @@ from typing import List
 
 
 class TreeNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.left = None
         self.right = None
 
 
 class Solution:
-    def dfs(self, root):
+    def dfs(self, root: TreeNode) -> List[int]:
         stack = []
         printed_levels = set()
         result = []
