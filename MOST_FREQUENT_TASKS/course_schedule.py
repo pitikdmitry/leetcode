@@ -5,8 +5,6 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
 
 Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
 
-
-
 Example 1:
 
 Input: numCourses = 2, prerequisites = [[1,0]]
@@ -25,6 +23,7 @@ from collections import defaultdict
 from typing import List, Dict, Set
 
 
+#   Detect cycle via DFS
 class Solution:
     #   we keep track of call stack to find a cycle, we use set for this purpose
     def dfs(self, node: int, graph: Dict[int, List[int]], visited: set, call_stack: Set[int]) -> bool:
@@ -66,9 +65,10 @@ class Solution:
         graph = self.transform_graph(prerequisites)
 
         has_cycle = False
+        visited = set()
         #   start DFS from every node, because we don't know where is root of graph
         for start_node in graph.keys():
-            has_cycle = self.dfs(start_node, graph, set(), set()) or has_cycle
+            has_cycle = self.dfs(start_node, graph, visited, set()) or has_cycle
 
         #   if graph has cycle it means that we cant finish all courses
         return not has_cycle
