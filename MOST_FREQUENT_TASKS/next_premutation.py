@@ -15,50 +15,46 @@ from typing import List
 
 
 class Solution:
-    def sort_array(self, arr, from_i, to_i):
-        for i in range(from_i, to_i + 1):
-            for j in range(i + 1, to_i + 1):
-                if arr[i] >= arr[j]:
-                    arr[i], arr[j] = arr[j], arr[i]
-                else:
-                    break
+    def reverse_nums(self, nums: List[int], start_i: int) -> None:
+        i = start_i
+        j = len(nums) - 1
+        while i < j:
+            nums[i], nums[j] = nums[j], nums[i]
+            i += 1
+            j -= 1
+        return
 
     def nextPermutation(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        if len(nums) == 0 or len(nums) == 1:
+        next_i = len(nums) - 1
+        prev_i = next_i - 1
+        while prev_i >= 0 and nums[prev_i] >= nums[next_i]:
+            prev_i -= 1
+            next_i -= 1
+
+        if prev_i < 0:
+            self.reverse_nums(nums, 0)
             return
 
-        swap_done = False
-        cur = len(nums) - 1
-        prev = cur - 1
-        while prev >= 0:
-            if nums[prev] < nums[cur] :
-                #   find which to change
-                smallest_diff = float('inf')
-                index_to_change = cur
-                for i in range(cur, len(nums)):
-                    cur_diff = nums[i] - nums[prev]
-                    if cur_diff < smallest_diff and cur_diff > 0 and nums[i] != 0:
-                        smallest_diff = cur_diff
-                        index_to_change = i
+        #   find next bigger
+        prev_value = nums[prev_i]
+        bigger_value = nums[next_i]
+        bigger_value_i = next_i
+        next_i += 1
+        while next_i < len(nums):
+            if prev_value < nums[next_i] <= bigger_value:
+                bigger_value = nums[next_i]
+                bigger_value_i = next_i
 
-                nums[prev], nums[index_to_change] = nums[index_to_change], nums[prev]
+            next_i += 1
 
-                self.sort_array(nums, cur, len(nums) - 1)
-                swap_done = True
-                break
-            else:
-                prev -= 1
-                cur -= 1
-
-        if swap_done is False:
-            nums.sort()
+        #   swap next bigger and prev value
+        nums[prev_i], nums[bigger_value_i] = nums[bigger_value_i], nums[prev_i]
+        #   reverse right part
+        self.reverse_nums(nums, prev_i + 1)
+        return
 
 
 s = Solution()
-nums = [2,2,4,0,1,2,4,4,0]
+nums = [2, 2, 4, 0, 1, 2, 4, 4, 0]
 s.nextPermutation(nums)
 print(nums)
-#   solved with small error
