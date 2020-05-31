@@ -21,28 +21,39 @@ class Solution:
     def get_neighbours(self, i: int, j: int) -> tuple:
         return (i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)
 
+    def change_all_values(self, matrix, old_value, new_value):
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == old_value:
+                    matrix[i][j] = new_value
+
     def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+        self.change_all_values(matrix, 1, -1)
+
         q = []
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
                 if matrix[i][j] == 0:
-                    q.append((i, j, 0))
+                    for new_i, new_j in self.get_neighbours(i, j):
+                        q.append((new_i, new_j))
 
-        visited = set()
+        steps = 0
         while len(q) > 0:
-            i, j, val = q.pop(0)
-            if (i, j) in visited:
-                continue
+            for i in range(len(q)):
+                i, j = q.pop(0)
 
-            visited.add((i, j))
-            matrix[i][j] = val
-
-            for new_i, new_j in self.get_neighbours(i, j):
-                if new_i < 0 or new_j < 0 or new_i >= len(matrix) or new_j >= len(matrix[0]):
+                if i < 0 or j < 0 or i >= len(matrix) or j >= len(matrix[0]):
                     continue
 
-                q.append((new_i, new_j, val + 1))
+                if matrix[i][j] != -1:
+                    continue
 
+                matrix[i][j] = steps + 1
+
+                for new_i, new_j in self.get_neighbours(i, j):
+                    q.append((new_i, new_j))
+
+            steps += 1
         return matrix
 
 
