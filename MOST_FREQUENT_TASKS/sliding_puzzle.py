@@ -36,6 +36,7 @@ from copy import deepcopy
 
 
 class Solution:
+    #   find zero element
     def find_zero(self, board: List[List[int]]) -> Tuple[int, int]:
         for i in range(len(board)):
             for j in range(len(board[i])):
@@ -43,13 +44,16 @@ class Solution:
                     return i, j
         return -1, -1
 
+    #   convert 2D array to a hashable object
     def get_hash(self, board: List[List[int]]) -> Tuple[int, int]:
         expended_list = list(itertools.chain(*board))
         return tuple(expended_list)
 
+    #   we can move zero element to 4 directions
     def get_neighbour_indexes(self, i: int, j: int) -> List[Tuple[int, int]]:
         return [(i - 1, j), (i, j - 1), (i + 1, j), (i, j + 1)]
 
+    #   checking if indexes are out of range
     def check_idx(self, board: List[List[int]], i: int, j: int) -> bool:
         if i < 0 or i >= len(board):
             return False
@@ -58,6 +62,7 @@ class Solution:
 
         return True
 
+    #   simple BFS
     def slidingPuzzle(self, board: List[List[int]]) -> int:
         steps = 0
         expected_answer = (1, 2, 3, 4, 5, 0)
@@ -65,7 +70,6 @@ class Solution:
         q.append(board)
         visited = set()
 
-        #   simple BFS
         while len(q) > 0:
             for k in range(len(q)):
                 board = q.pop(0)
