@@ -68,3 +68,58 @@ src = 2
 dst = 15
 k = 4
 print(solution.findCheapestPrice(n, edges, src, dst, k))
+
+
+import collections
+from queue import PriorityQueue
+from typing import List, Dict, Tuple
+
+
+#   BFS solution. Go steps by steps, but if we find vertex second time, but now price is smaller - we continue moving
+class Solution:
+    def bfs(self, graph: Dict[int, List[Tuple[int, int]]], prices: Dict[int, int], src: int, dst: int, max_steps: int) -> None:
+        q = []
+        steps, start_price = 0, 0
+        q.append((src, start_price))
+
+        while len(q) > 0:
+            if steps > max_steps:
+                break
+
+            for i in range(len(q)):
+                node, price = q.pop(0)
+                if node in prices and prices[node] <= price:
+                    continue
+
+                prices[node] = price
+                children = graph.get(node)
+                if children is None:
+                    continue
+
+                for child, weight in children:
+                    q.append((child, price + weight))
+
+            steps += 1
+
+    def convert_graph(self, flights: List[List[int]]) -> Dict[int, List[Tuple[int, int]]]:
+        graph = collections.defaultdict(list)
+        for u, v, w in flights:
+            graph[u].append((v, w))
+
+        return graph
+
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        graph = self.convert_graph(flights)
+        prices = {}
+        max_steps = K + 1
+        self.bfs(graph, prices, src, dst, max_steps)
+        return prices.get(dst, -1)
+
+
+solution = Solution()
+n = 3
+edges = [[3, 2, 1], [2, 11, 1], [2, 7, 2], [7, 8, 2], [11, 12, 1], [12, 8, 1], [8, 15, 2]]
+src = 2
+dst = 15
+k = 4
+print(solution.findCheapestPrice(n, edges, src, dst, k))
