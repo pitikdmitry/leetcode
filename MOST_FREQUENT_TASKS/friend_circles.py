@@ -26,7 +26,7 @@ from typing import List, Dict
 
 
 class Solution:
-    def dfs(self, counter_friends: Dict[int, List[int]], key: int) -> None:
+    def bfs(self, counter_friends: Dict[int, List[int]], key: int) -> None:
         q = []
         q.append(key)
         while len(q) > 0:
@@ -44,6 +44,7 @@ class Solution:
         counter_friends = {}
         circles = 0
 
+        #   convert to adjacency list
         for i in range(len(M)):
             for j in range(0, len(M[i])):
                 if M[i][j] == 1:
@@ -53,8 +54,39 @@ class Solution:
 
         while len(counter_friends) > 0:
             key = next(iter(counter_friends.keys()))
-            self.dfs(counter_friends, key)
+            self.bfs(counter_friends, key)
             circles += 1
+        return circles
+
+
+s = Solution()
+M = [[1, 0, 0, 1],
+     [0, 1, 1, 0],
+     [0, 1, 1, 1],
+     [1, 0, 1, 1]]
+print(s.findCircleNum(M))
+
+
+#   DFS solution without with adjacency matrix
+class Solution:
+    def dfs(self, friends: List[List[int]], i: int, visited: set) -> None:
+        if i in visited:
+            return
+        visited.add(i)
+
+        for j in range(len(friends[i])):
+            if friends[i][j] == 1:
+                self.dfs(friends, j, visited)
+
+    def findCircleNum(self, friends: List[List[int]]) -> int:
+        visited = set()
+        circles = 0
+
+        for i in range(len(friends)):
+            if i not in visited:
+                self.dfs(friends, i, visited)
+                circles += 1
+
         return circles
 
 
