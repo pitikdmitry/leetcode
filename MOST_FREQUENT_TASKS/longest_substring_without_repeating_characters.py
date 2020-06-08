@@ -21,6 +21,7 @@ Explanation: The answer is "wke", with the length of 3.
 from collections import Counter
 
 
+#   basic sliding window approach
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         counter = Counter()
@@ -45,4 +46,28 @@ class Solution:
 
 solution = Solution()
 s = 'pwwkew'
+print(solution.lengthOfLongestSubstring(s))
+
+
+#   optimized sliding window (without slow pointer iteration)
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        letters_positions = {}
+        window_start, max_length = 0, 0
+
+        for i in range(len(s)):
+            if s[i] in letters_positions:
+                max_length = max(max_length, i - window_start)
+                window_start = max(window_start, letters_positions[s[i]] + 1)
+
+            letters_positions[s[i]] = i
+
+            if i == len(s) - 1:
+                max_length = max(max_length, i - window_start + 1)
+
+        return max_length
+
+
+solution = Solution()
+s = 'abba'
 print(solution.lengthOfLongestSubstring(s))
