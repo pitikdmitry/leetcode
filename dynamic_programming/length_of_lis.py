@@ -45,6 +45,7 @@ nums = [9, 2, 5, 3]
 print(solution.lengthOfLIS(nums))
 
 
+#   on every index we search smaller value in previous indexes with maximum length of LIS
 class SolutionBottomUp:
     def lengthOfLIS(self, nums: List[int]) -> int:
         if len(nums) == 0:
