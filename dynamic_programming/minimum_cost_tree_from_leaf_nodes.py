@@ -27,6 +27,8 @@ from typing import List, Tuple, Dict
 
 
 #   DP recursive + memo
+#   we have array with given left and right borders. We go through all values and
+#   consider them as root ot current subtree. Than we do this process for left and right subtrees
 class Solution:
     #   return (sum, max_left)
     #   memo key: (left, right), memo value: (min_sum, max_leaf)
