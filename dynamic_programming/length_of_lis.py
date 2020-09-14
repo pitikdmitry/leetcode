@@ -45,7 +45,6 @@ nums = [9, 2, 5, 3]
 print(solution.lengthOfLIS(nums))
 
 
-#   added memoization to recursion
 class SolutionBottomUp:
     def lengthOfLIS(self, nums: List[int]) -> int:
         if len(nums) == 0:
