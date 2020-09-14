@@ -24,13 +24,10 @@ class Node:
         self.is_word = False
 
 
-#   Hash trie
+#   Trie
 class WordDictionary:
 
     def __init__(self) -> None:
-        """
-        Initialize your data structure here.
-        """
         self.root = Node('')
 
     def addWord(self, word: str) -> None:
@@ -56,6 +53,7 @@ class WordDictionary:
             c = word[i]
 
             result = False
+            #   do recursive calls to all children
             if c == '.':
                 for child_node in node.children.values():
                     result |= self.search_helper(word, i + 1, child_node)
