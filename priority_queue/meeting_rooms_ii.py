@@ -11,7 +11,7 @@ Example 2:
 Input: [[7,10],[2,4]]
 Output: 1
 '''
-from queue import PriorityQueue
+import heapq
 from typing import List
 
 
@@ -19,26 +19,22 @@ class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         #   sort interval by start time
         intervals = sorted(intervals, key=lambda x: x[0])
-        #   put intervals in PQ, priority=smallest end time, before putting pop all intervals that has already ended
-        pq = PriorityQueue()
-        max_pq_size = 0
+        #   put intervals in min heap, priority=smallest end time,
+        #   before putting new interval, pop all intervals that have already ended
+        min_h = []
+        max_heap_size = 0
 
         for interval in intervals:
             start, end = interval[0], interval[1]
 
-            while pq.qsize() > 0:
-                priority, earliest_end_interval = pq.get()
-                if earliest_end_interval[1] <= start:
-                    continue
-                else:
-                    #   first el - priority
-                    pq.put((earliest_end_interval[1], earliest_end_interval))
-                    break
+            #   pop ended intervals
+            while len(min_h) > 0 and min_h[0][0] < start:
+                heapq.heappop(min_h)
 
-            pq.put((end, interval))
-            max_pq_size = max(max_pq_size, pq.qsize())
+            heapq.heappush(min_h, (end, start))
+            max_heap_size = max(max_heap_size, len(min_h))
 
-        return max_pq_size
+        return max_heap_size
 
 
 solution = Solution()
