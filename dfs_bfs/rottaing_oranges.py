@@ -36,15 +36,19 @@ class Solution:
         if len(grid) == 0:
             return 0
 
+        #   put all rotten oranges in queue
         q = []
+        fresh_oranges = 0
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == self.ROTTEN_ORANGE:
                     for new_i, new_j in self.get_neighbours(i, j):
                         q.append((new_i, new_j))
 
+                elif grid[i][j] == self.FRESH_ORANGE:
+                    fresh_oranges += 1
+
         steps = 0
-        fresh_oranges = self.count_fresh_oranges(grid)
         #   do bfs, all neighbour oranges become rotten too
         while len(q) > 0:
             for i in range(len(q)):
@@ -58,13 +62,16 @@ class Solution:
 
                 grid[i][j] = self.ROTTEN_ORANGE
                 fresh_oranges -= 1
+
                 for new_i, new_j in self.get_neighbours(i, j):
                     q.append((new_i, new_j))
+
             steps += 1
 
         #   if not all fresh oranges become rotten
         if fresh_oranges > 0:
             return -1
+
         #   if no steps required
         if steps == 0:
             return 0
