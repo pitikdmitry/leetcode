@@ -15,6 +15,10 @@ import heapq
 from typing import List
 
 
+#   we sort intervals by start time,
+#   put them in minimum heap by end time
+#   when we process new intervals -> we remove from heap all ended intervals
+#   maximum size of heap -> amount of needed rooms
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         #   sort interval by start time
