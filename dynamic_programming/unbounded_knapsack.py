@@ -1,7 +1,8 @@
 '''
 Given the weights and profits of ‘N’ items, we are asked to put these items in a knapsack which has a capacity ‘C’.
 The goal is to get the maximum profit from the items in the knapsack.
-The only difference between the 0/1 Knapsack problem and this problem is that we are allowed to use an unlimited quantity of an item.
+The only difference between the 0/1 Knapsack problem and this problem is that we are allowed to use an
+unlimited quantity of an item.
 
 Let’s take the example of Merry, who wants to carry some fruits in the knapsack to get maximum profit.
 Here are the weights and profits of the fruits:
@@ -11,27 +12,29 @@ Weights: { 1, 2, 3 }
 Profits: { 15, 20, 50 }
 Knapsack capacity: 5
 '''
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 
-#   recursive memo solution. We call only items with bigger index. Because we don't want to recompute dublicates.
-#   In this task it's not important, but in other questions with this pattern we may have wrong answer
-def helper(weights: List[int], profits: List[int], capacity: int, memo: Dict[int, int]):
+#   recursive memo solution. We have given capacity of knapsack, we try to take every item and than process
+#   remaining part of capacity
+def knapsack_recursive(weights: List[int], profits: List[int], capacity: int, item_idx: int, memo: Dict[Tuple[int, int], int]) -> int:
     if capacity <= 0:
         return 0
 
-    if capacity in memo:
-        return memo[capacity]
+    if (item_idx, capacity) in memo:
+        return memo[(item_idx, capacity)]
 
     results = []
     i = 0
-    while i < len(weights):
+
+    #   try to take every item. We don't take items where idx < item_idx for not processing dublicate set of coins
+    for i in range(item_idx, len(weights)):
         weight, profit = weights[i], profits[i]
         if capacity - weight < 0:
             i += 1
             continue
 
-        res = helper(weights, profits, capacity - weight, memo)
+        res = knapsack_recursive(weights, profits, capacity - weight, i, memo)
         results.append(res + profit)
 
         i += 1
@@ -45,7 +48,7 @@ def helper(weights: List[int], profits: List[int], capacity: int, memo: Dict[int
 
 
 def unbounded_knapsack(weights: List[int], profits: List[int], capacity: int) -> int:
-    return helper(weights, profits, capacity, {})
+    return knapsack_recursive(weights, profits, capacity, 0, {})
 
 
 weights = [1, 3, 4, 5]
@@ -56,23 +59,24 @@ print(unbounded_knapsack(weights, profits, capacity))
 
 #   bottom up dp solution
 def unbounded_knapsack_bottom_up(weights: List[int], profits: List[int], capacity: int) -> int:
-    dp = [[0 for _ in range(capacity + 1)] for _ in range(len(weights))]
+    #   dp[i][j] = maximum profit with capacity j and items from [0 ... i]
+    dp = [[0 for j in range(capacity + 1)] for i in range(len(weights))]
 
     for i in range(len(dp)):
         for j in range(len(dp[0])):
             #   if we take current item
-            take = 0
+            c1 = 0
             new_j = j - weights[i]
             if new_j >= 0:
-                take = dp[i][new_j] + profits[i]
+                c1 = dp[i][new_j] + profits[i]
 
             #   if we dont take current item -> we take result from the previous row
-            not_take = 0
+            c2 = 0
             if i > 0:
-                not_take = dp[i - 1][j]
+                c2 = dp[i - 1][j]
 
             #   choose better option
-            dp[i][j] = max(take, not_take)
+            dp[i][j] = max(c1, c2)
 
     return dp[len(dp) - 1][len(dp[0]) - 1]
 
