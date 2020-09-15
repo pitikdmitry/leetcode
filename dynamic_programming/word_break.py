@@ -1,5 +1,6 @@
 '''
-Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words,
+determine if s can be segmented into a space-separated sequence of one or more dictionary words.
 
 Note:
 
@@ -20,33 +21,32 @@ Example 3:
 
 Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output: false
-
 '''
-from typing import List
+from typing import List, Set
 
 
+#   from every index in s we try to match every word from word dict,
+#   if find match -> process ramaining part of string
 class Solution:
-    def helper(self, s, words, memo):
-        if len(s) == 0:
+    def word_break_recursive(self, s: str, str_i: int, words: Set[str], memo):
+        if str_i == len(s):
             return True
-        if s in memo:
-            return memo[s]
+        if str_i in memo:
+            return memo[str_i]
 
-        for i in range(len(s)):
-            cur_word = s[0: i + 1]
-            if cur_word in words:
-                word_remains = s[i + 1:]
-                res = self.helper(word_remains, words, memo)
-                memo[word_remains] = res
+        res = False
+        for word in words:
+            #   try to read word from s of length = len(word)
+            next_word_in_str = s[str_i: str_i + len(word)]
+            if next_word_in_str == word:
+                res |= self.word_break_recursive(s, str_i + len(word), words, memo)
 
-                if res is True:
-                    return True
-
-        return False
+        memo[str_i] = res
+        return res
 
     def wordBreak(self, s: str, wordList: List[str]) -> bool:
         words = set(wordList)
-        return self.helper(s, words, {})
+        return self.word_break_recursive(s, 0, words, {})
 
 
 solution = Solution()
@@ -58,18 +58,24 @@ print(solution.wordBreak(s, wordDict))
 class SolutionBottomUp:
     def wordBreak(self, s: str, wordList: List[str]) -> bool:
         words = set(wordList)
-        found_word = [False for x in range(len(s))]
-        if len(words) == 0:
-            return False
+        #   dp[i] indicates if we can reach this index with given word list
+        dp = [False for _ in range(len(s) + 1)]
+        dp[0] = True
 
-        for i in range(len(s)):
-            for j in range(i, -1, -1):
-                if j == 0 or found_word[j - 1] is True:
-                    cur_word = s[j: i + 1]
-                    if cur_word in words:
-                        found_word[i] = True
+        for i in range(len(dp)):
+            for word in words:
+                word_length = len(word)
 
-        return found_word[len(found_word) - 1]
+                if i - word_length < 0 or dp[i - word_length] == False:
+                    continue
+
+                #   compare word from wordList and word from s, which ends on i - 1 index
+                word_from_str = s[i - word_length: i]
+                if word_from_str == word:
+                    dp[i] = True
+                    break
+
+        return dp[len(dp) - 1]
 
 
 solution = SolutionBottomUp()
