@@ -18,41 +18,39 @@ Given word = "ABCCED", return true.
 Given word = "SEE", return true.
 Given word = "ABCB", return false.
 '''
-from typing import List
+from typing import List, Tuple, Set
 
 
 class Solution:
-    def backtrack(self, board, i, j, visited, s, str_i):
+    #   we use visited set to prevent cycles (every letter can be used one time)
+    def dfs(self, board: List[List[str]], i: int, j: int, s: str, str_i: int, visited: Set[Tuple[int, int]]) -> bool:
+
         if str_i == len(s):
             return True
 
+        if (i, j) in visited:
+            return False
+        visited.add((i, j))
+
+        #   check border
         if i < 0 or j < 0 or i >= len(board) or j >= len(board[0]) or board[i][j] != s[str_i]:
             return False
 
-        if (i, j) in visited:
-            return False
-
-        visited.add((i, j))
-        res = self.backtrack(board, i + 1, j, visited, s, str_i + 1) or \
-              self.backtrack(board, i - 1, j, visited, s, str_i + 1) or \
-              self.backtrack(board, i, j + 1, visited, s, str_i + 1) or \
-              self.backtrack(board, i, j - 1, visited, s, str_i + 1)
-
-        visited.remove((i, j))
-        return res
+        return self.dfs(board, i + 1, j, s, str_i + 1, visited) or \
+               self.dfs(board, i - 1, j, s, str_i + 1, visited) or \
+               self.dfs(board, i, j + 1, s, str_i + 1, visited) or \
+               self.dfs(board, i, j - 1, s, str_i + 1, visited)
 
     def exist(self, board: List[List[str]], word: str) -> bool:
         if len(word) == 0:
             return True
 
-        if len(board) == 0:
-            return False
-
+        #   start dfs from every letter and try to find word
         first_letter = word[0]
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == first_letter:
-                    res = self.backtrack(board, i, j, set(), word, 0)
+                    res = self.dfs(board, i, j, word, 0, set())
                     if res is True:
                         return res
         return False
