@@ -14,6 +14,7 @@ double findMedian() - Return the median of all elements so far.
 import heapq
 
 
+#   we use two heaps for finding median
 class MedianFinder:
     def __init__(self) -> None:
         #   max heap for values < median value
