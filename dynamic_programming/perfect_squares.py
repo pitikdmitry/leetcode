@@ -14,19 +14,13 @@ Output: 2
 Explanation: 13 = 4 + 9.
 '''
 import math
+from typing import List, Dict
 
 
+#   we have given number n. We generate list square nums and try to subtract every perfect square from n
+#   next we process remaining part of n (n - square_nums[i])
 class SolutionTopDown:
-    def is_perfect_square(self, num):
-        num_sqrt = int(math.sqrt(num))
-        if num_sqrt * num_sqrt == num:
-            return True
-
-        return False
-
-    def helper(self, n, memo):
-        square_nums = [i ** 2 for i in range(int(math.sqrt(n)), 0, -1)]
-
+    def squares_recursive(self, n: int, memo: Dict[int, int], square_nums: List[int]):
         if n == 0:
             return 0
 
@@ -37,20 +31,24 @@ class SolutionTopDown:
             return memo[n]
 
         min_res = float('inf')
+        #   we try to subtract every perfect square
         for i in square_nums:
-            if self.is_perfect_square(i) is True:
-                res = self.helper(n - i, memo)
-                min_res = min(min_res, res + 1)
+            res = self.squares_recursive(n - i, memo, square_nums)
+            min_res = min(min_res, res + 1)
 
         memo[n] = min_res
         return min_res
 
     def numSquares(self, n: int) -> int:
-        return self.helper(n, dict())
+        square_nums = [i ** 2 for i in range(int(math.sqrt(n)), 0, -1)]
+        res = self.squares_recursive(n, {}, square_nums)
+        if res == float('inf'):
+            return -1
+        return res
 
 
 s = SolutionTopDown()
-print(s.numSquares(12))
+print(s.numSquares(13))
 
 
 class SolutionBottomUp:
