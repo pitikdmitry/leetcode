@@ -12,6 +12,9 @@ from collections import deque
 from typing import List
 
 
+#   We will do sliding window on prefix array
+#   left value of monotonic queue stores smallest prefix sum value.
+#   pr[i] - q[0] will allow us to find biggest shortest subarray
 class Solution:
     def shortestSubarray(self, arr: List[int], K: int) -> int:
         pr_arr = [arr[i] for i in range(len(arr))]
