@@ -15,34 +15,37 @@ Explanation: The LCA of nodes 5 and 1 is 3.
 
 # Definition for a binary tree node.
 class TreeNode:
-    def __init__(self, x):
+    def __init__(self, x: int) -> None:
         self.val = x
         self.left = None
         self.right = None
 
 
-#   post order solution
+#   post order recursive solution
 class Solution:
-    def helper(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> bool:
+    def __init__(self):
+        self._ans = None
+
+    def helper(self, root: TreeNode, p: TreeNode, q: TreeNode) -> bool:
         if root is None:
             return False
 
         res_1 = self.helper(root.left, p, q)
         res_2 = self.helper(root.right, p, q)
-        stay_on_value = False
-        if root.val == p.val or root.val == q.val:
-            stay_on_value = True
+        #   we have found lca if p is in left subtree and q is in right subtree or vice versa
+        if res_1 is True and res_2 is True:
+            self._ans = root
 
-        sum_res = int(res_1) + int(res_2) + int(stay_on_value)
-        if sum_res >= 2:
-            self.ans = root
+        #   or if one node is in subtree and second node equals to current node
+        if (res_1 is True or res_2 is True) and (root.val == p.val or root.val == q.val):
+            self._ans = root
 
+        #   we assume that both p and q are in left subtree or in right subtree
         if root.val == p.val or root.val == q.val:
             return True
 
         return res_1 or res_2
 
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        self.ans = None
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         self.helper(root, p, q)
-        return self.ans
+        return self._ans
