@@ -29,7 +29,9 @@ class TreeNode:
         self.right = None
 
 
-#   can be optimized with Hashmap for searching elements (instead of linear search index() )
+#   We have left and right indexes of pre order.
+#   On next step we need to find most left element of pre_order in in_order array. It's position in in_order allows us
+#   to determine left and right subtrees in pre_order
 class Solution:
     def helper(self, pre_order: List, in_order: List, left: int, right: int, pre_order_cur_position: int) -> Optional[TreeNode]:
         if left > right:
@@ -37,13 +39,18 @@ class Solution:
         if left == right:
             return TreeNode(pre_order[pre_order_cur_position])
 
+        #   find left element in in_order
         in_order_position = in_order.index(pre_order[pre_order_cur_position])
+        #   create root of subtree
         node = TreeNode(pre_order[pre_order_cur_position])
 
+        #   process left subtree
         in_order_left_count = in_order_position - left
         node.left = self.helper(pre_order, in_order, left, in_order_position - 1, pre_order_cur_position + 1)
 
-        node.right = self.helper(pre_order, in_order, in_order_position + 1, right, pre_order_cur_position + in_order_left_count + 1)
+        #   process right subtree
+        node.right = self.helper(pre_order, in_order, in_order_position + 1, right,
+                                 pre_order_cur_position + in_order_left_count + 1)
         return node
 
     def buildTree(self, pre_order: List[int], in_order: List[int]) -> Optional[TreeNode]:
@@ -56,4 +63,4 @@ preorder = [3, 9, 20, 15, 7]
 inorder = [9, 3, 15, 20, 7]
 s = Solution()
 head = s.buildTree(preorder, inorder)
-print(head)
+print(head.val)
