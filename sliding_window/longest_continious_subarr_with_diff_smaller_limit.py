@@ -23,11 +23,11 @@ from typing import List
 
 
 #   We need to keep track of minimum and maximum value inside window
-#   To do this we use increasing monotonic queue (min_dequeue) and decreasing monotonic queue (max_dequeue)
+#   To do this we use increasing monotonic queue (min_dequeue) for minimum value
+#   and decreasing monotonic queue (max_dequeue) for maximum value
 class Solution:
     def longestSubarray(self, nums: List[int], limit: int) -> int:
-        max_deque = []
-        min_deque = []
+        max_deque, min_deque = [], []
         max_len = 0
         j = 0
 
