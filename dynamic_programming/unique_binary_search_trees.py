@@ -16,6 +16,11 @@ Given n = 3, there are a total of 5 unique BST's:
 from typing import Dict
 
 
+#   top down solution with memoization
+#   in given range from start to end we choose every value as root of subtree
+#   and then we process left and right subtrees
+#   for every root we need to multiply amount of left and right subtrees
+#   (because we can have various combinations of trees)
 class Solution:
     def helper(self, start: int, end: int, memo: Dict):
         if (start, end) in memo:
@@ -26,16 +31,18 @@ class Solution:
             return 1
 
         count = 0
-        for i in range(start, end + 1):
+        for center in range(start, end + 1):
+            #   left subtree
             start_l = start
-            end_l = i - 1
+            end_l = center - 1
 
-            start_r = i + 1
+            #   right subtree
+            start_r = center + 1
             end_r = end
 
-            res_1 = self.helper(start_l, end_l, memo)
-            res_2 = self.helper(start_r, end_r, memo)
-            count += res_1 * res_2
+            c1 = self.helper(start_l, end_l, memo)
+            c2 = self.helper(start_r, end_r, memo)
+            count += c1 * c2
         memo[(start, end)] = count
         return count
 
